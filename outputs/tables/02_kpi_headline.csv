@@ -1,0 +1,17 @@
+﻿metric,value,description
+n_rows,34070,toplam satış satırı
+n_stores,350,farklı mağaza
+n_products,249,satışı olan ürün
+n_sizes,71,farklı beden kodu
+date_min,2024-02-01,ilk satış günü
+date_max,2025-01-31,son satış günü
+gross_sales_amount,25108161.94,brüt satış tutarı (iade hariç)
+return_amount,-7277671.5,iade tutarı (negatif)
+net_sales_amount,17830490.44,net satış = brüt + iade
+gross_sales_qty,26011,brüt satış adedi
+return_qty,-8091,iade adedi (negatif)
+net_qty,17920,net adet
+return_rate_amount,0.2899,|iade tutarı| / brüt satış
+return_rate_qty,0.3111,|iade adedi| / brüt adet
+avg_selling_price,965.29,brüt ASP (iade hariç)
+n_anomaly_rows,15,ReturnFlag=0 ama Amount<0

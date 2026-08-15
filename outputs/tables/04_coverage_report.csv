@@ -1,0 +1,8 @@
+﻿metric,value,description
+min_rows_threshold,10.0,12 ayda hücre başına en az işlem satırı
+n_cells_total,2739.0,dolu fit × mağaza hücresi
+n_cells_scored,1267.0,"eşiği geçen, skorlanan hücre"
+n_cells_excluded,1472.0,"eşik altı, skorlanmayan (silinmedi)"
+net_share_scored_pct,78.9,skorlanan hücrelerin net ciro payı (%)
+net_share_excluded_pct,21.1,eşik altı hücrelerin net ciro payı (%)
+n_stores_scored,301.0,skorlamaya giren mağaza

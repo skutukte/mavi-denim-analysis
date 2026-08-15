@@ -1,0 +1,6 @@
+﻿table,n_rows,n_columns,role
+fact_sales,34070,24,fact
+dim_product,1511,11,dimension
+dim_date,366,15,dimension
+dim_store,350,16,dimension
+panel_store_month,4200,8,modelleme girdisi

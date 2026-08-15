@@ -1,0 +1,68 @@
+﻿table,column,dtype,n_null,description
+fact_sales,doc_id,int64,0,Birincil anahtar. Satır başına unique — fiş/sepet kimliği DEĞİLDİR.
+fact_sales,store_code,int64,0,dim_store'a yabancı anahtar.
+fact_sales,product_code,object,0,dim_product'a yabancı anahtar.
+fact_sales,product_item_code,object,0,product_code + 3 haneli beden eki.
+fact_sales,size_code,object,0,METİN. Baştaki sıfır anlamlıdır ('007' ≠ 7) — BI'da metin olarak import edin.
+fact_sales,sale_date,datetime64[ns],0,dim_date'e yabancı anahtar (gün seviyesi).
+fact_sales,year_month,object,0,YYYY-MM. Aylık kırılımlar için hazır anahtar.
+fact_sales,sale_hour,int64,0,İşlem saati 0-23 (veride 9-23 aralığında).
+fact_sales,sale_minute,int64,0,İşlem dakikası 0-59.
+fact_sales,sale_time,object,0,HH:MM biçiminde sıfır dolgulu saat.
+fact_sales,quantity,int64,0,İŞARETLİ adet. İade satırlarında negatif.
+fact_sales,amount,float64,0,İŞARETLİ tutar. İade satırlarında negatif. TOPLAMI = NET CİRO.
+fact_sales,discount_amount,float64,0,Ham iskonto tutarı. Semantiği doğrulanmadı.
+fact_sales,assumed_gross_amount,float64,0,VARSAYIMSAL brüt = amount + discount_amount. Doğrulanmadı.
+fact_sales,sales_amount,float64,0,"Yalnızca satış satırlarında amount, iadede 0. Brüt satış toplamı için."
+fact_sales,return_amount,float64,0,"Yalnızca iade satırlarında amount (negatif), satışta 0."
+fact_sales,sales_quantity,int64,0,"Yalnızca satış satırlarında quantity, iadede 0."
+fact_sales,return_quantity,int64,0,"Yalnızca iade satırlarında quantity (negatif), satışta 0."
+fact_sales,return_flag,int64,0,Kaynak sistemden gelen ham bayrak (0/1).
+fact_sales,is_return,bool,0,return_flag = 1 (boolean).
+fact_sales,is_anomaly,bool,0,return_flag=0 olmasına rağmen amount<0. 15 satır. Toplamlara DAHİL.
+fact_sales,is_discount_gt_amount,bool,0,Satış satırında discount_amount > amount. 278 satır.
+fact_sales,is_discount_negative,bool,0,discount_amount < 0. Tamamı iade satırında.
+fact_sales,change_card_flag,int64,0,"Kaynak sistemden gelen ham bayrak. SEMANTİĞİ BİLİNMİYOR, analiz edilmedi."
+dim_product,product_code,object,0,"Birincil anahtar. 1.511 ürün, unique."
+dim_product,fit,object,0,NORMALİZE fit etiketi. Tek anlamlı kategori kırılımı budur. Kırılımlarda BUNU kullanın.
+dim_product,sub_category_class_raw,object,0,"Ham fit etiketi (TR/EN karışık, normalize edilmemiş). Denetim içindir."
+dim_product,class_name,object,0,TEK DEĞERLİ ('Ticari Malzemeler') — kırılımda kullanmayın.
+dim_product,main_category,object,0,TEK DEĞERLİ ('Denim All') — kırılımda kullanmayın.
+dim_product,category,object,0,TEK DEĞERLİ ('Denim All') — kırılımda kullanmayın.
+dim_product,sub_category,object,0,TEK DEĞERLİ ('Denim Pantolon') — kırılımda kullanmayın.
+dim_product,main_category_en,object,278,İngilizce karşılık. 278 NULL — anahtar olarak kullanmayın.
+dim_product,category_en,object,278,İngilizce karşılık. 278 NULL — anahtar olarak kullanmayın.
+dim_product,sub_category_en,object,280,İngilizce karşılık. 280 NULL — anahtar olarak kullanmayın.
+dim_product,sub_category_class_en,object,280,İngilizce fit. 280 NULL — anahtar olarak kullanmayın.
+dim_date,date,datetime64[ns],0,Birincil anahtar. 2024-02-01 → 2025-01-31 KESİNTİSİZ takvim (366 gün).
+dim_date,year,int32,0,Takvim yılı.
+dim_date,quarter,int32,0,Takvim çeyreği 1-4.
+dim_date,month,int32,0,Ay numarası 1-12.
+dim_date,year_month,object,0,YYYY-MM.
+dim_date,month_name_tr,object,0,Türkçe ay adı.
+dim_date,day,int32,0,Ayın günü.
+dim_date,day_of_year,int32,0,Yılın kaçıncı günü.
+dim_date,day_of_week,int32,0,0=Pazartesi … 6=Pazar.
+dim_date,day_name_tr,object,0,Türkçe gün adı.
+dim_date,iso_week,int64,0,ISO hafta numarası.
+dim_date,iso_year_week,object,0,YYYY-Www biçiminde ISO hafta anahtarı.
+dim_date,is_weekend,bool,0,Cumartesi veya Pazar.
+dim_date,is_month_end,bool,0,Ayın son günü.
+dim_date,has_sales,bool,0,O gün fact_sales'te en az bir satır var mı.
+dim_store,store_code,int64,0,Birincil anahtar. 350 mağaza.
+dim_store,net_sales,float64,0,Dönem toplam net cirosu (12 ay).
+dim_store,gross_sales,float64,0,Dönem brüt satışı (iade hariç).
+dim_store,return_amount,float64,0,Dönem iade tutarı (negatif).
+dim_store,return_rate_amount,float64,0,|iade| / brüt satış.
+dim_store,net_quantity,int64,0,Dönem net adedi.
+dim_store,n_transactions,int64,0,Dönem işlem satırı sayısı.
+dim_store,avg_line_amount,float64,0,net_sales / n_transactions. SEPET DEĞİLDİR — fiş kimliği yok.
+dim_store,revenue_rank,int64,0,Net ciroya göre sıra (1 = en yüksek).
+dim_store,revenue_share_pct,float64,0,Toplam net ciro içindeki pay (%).
+dim_store,revenue_tier,object,0,"Kümülatif ciroya göre A (ilk %50), B (%50-80), C (kalan)."
+dim_store,active_months,int64,0,Satış görülen ay sayısı (0-12).
+dim_store,first_sale_date,datetime64[ns],0,İlk satış günü.
+dim_store,last_sale_date,datetime64[ns],0,Son satış günü.
+dim_store,top_fit,object,0,Mağazada net cirosu en yüksek fit.
+dim_store,top_fit_share_pct,float64,0,top_fit'in o mağazanın net cirosundaki payı (%).
+dim_store,(tablo notu),,0,COĞRAFİ BİLGİ YOKTUR. Şehir/bölge/mağaza tipi kolonu kaynak veride mevcut değil; buradaki tüm özellikler satış davranışından TÜRETİLMİŞTİR.

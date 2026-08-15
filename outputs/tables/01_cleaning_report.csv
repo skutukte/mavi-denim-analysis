@@ -1,0 +1,22 @@
+﻿step,rule,affected_rows,total_rows,affected_pct,note
+01a,Excel serial → datetime dönüşümü,0,34070,0.00%,"openpyxl zaten datetime döndürdü, dönüşüm gereksiz"
+01b,Beklenen tarih aralığı dışı satır,0,34070,0.00%,2024-02-01 → 2025-01-31
+02a,Sıfır padding gereken Time değeri,7,34070,0.02%,HHMM → HH:MM
+02b,Geçersiz saat/dakika,0,34070,0.00%,saat aralığı: 9-23
+03a,Fit etiketi TR/EN birleştirme,6,1511,0.40%,"eşleşen: Colored Denims→Renkli Denim, Maternity→Hamile"
+03b,5'ten az ürünlü fit → Other,11,1511,0.73%,"toplanan etiketler: Büyük Beden, Cargo Pants, Cord Pants, Denim All, Fashion Woven Pants, Hamile"
+09,Tek değerli kolon tespiti: Class,1511,1511,100.00%,1 farklı değer (Ticari Malzemeler) — kırılımda kullanılmayacak
+09,Tek değerli kolon tespiti: MainCategory,1511,1511,100.00%,1 farklı değer (Denim All) — kırılımda kullanılmayacak
+09,Tek değerli kolon tespiti: Category,1511,1511,100.00%,1 farklı değer (Denim All) — kırılımda kullanılmayacak
+09,Tek değerli kolon tespiti: SubCategory,1511,1511,100.00%,1 farklı değer (Denim Pantolon) — kırılımda kullanılmayacak
+10,Products'ta karşılığı olmayan satış satırı (orphan),0,34070,0.00%,beklenen: 0
+04a,"ProductItemCode, ProductCode ile başlamıyor",0,34070,0.00%,
+04b,3 haneye çözülemeyen beden kodu,0,34070,0.00%,71 farklı beden kodu türetildi
+05a,İade satırı (ReturnFlag=1),8086,34070,23.73%,Quantity ve Amount negatif
+05b,ANOMALİ: ReturnFlag=0 ama Amount<0,15,34070,0.04%,"silinmedi, işaretlendi, toplamlarda kalıyor"
+05c,İade işaretli ama Amount pozitif,0,34070,0.00%,beklenen: 0
+06a,Satış satırında DiscountAmount > Amount,278,34070,0.82%,"iskonto tanımıyla çelişiyor, işaretlendi"
+06b,İade satırında DiscountAmount > Amount,8048,34070,23.62%,"Amount negatif olduğu için beklenen davranış, anomali değil"
+06c,Negatif DiscountAmount,1614,34070,4.74%,tamamı iade satırında (satış satırında: 0)
+08,ChangeCardFlag=1 satır,272,34070,0.80%,"semantiği doğrulanmadı, fact'e taşındı, analiz edilmiyor"
+01c,Satış olmayan takvim günü,0,366,0.00%,"dim_date kesintisiz, fact'te karşılığı yok"

@@ -1,0 +1,7 @@
+﻿flag,n_rows,description,pct_of_rows
+is_return,8086,"ReturnFlag=1, Quantity ve Amount negatif",23.73
+is_anomaly,15,"ReturnFlag=0 ama Amount<0 — işaretlendi, silinmedi",0.04
+discount_gt_amount,278,satış satırında DiscountAmount > Amount,0.82
+discount_negative,1614,negatif iskonto (tamamı iade satırı),4.74
+ChangeCardFlag=1,272,"semantiği doğrulanmadı, analiz edilmedi",0.8
+null_any_column,0,fact_sales'te toplam null,0.0

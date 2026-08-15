@@ -1,0 +1,12 @@
+﻿metric,value
+unit_price_q1,843.74
+unit_price_median,999.99
+unit_price_q3,1090.9
+iqr,247.16
+lower_fence,473.0
+upper_fence,1461.64
+n_outlier_rows,611.0
+outlier_pct_of_sales_rows,2.35
+outlier_amount_share_pct,0.85
+min_unit_price,-82.73
+max_unit_price,2860.11
