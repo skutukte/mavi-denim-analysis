@@ -1,0 +1,19 @@
+# Varsayımlar
+
+Pipeline tarafından otomatik yazılır. Her satır bir karar.
+
+- İskonto semantiği belirsiz. VARSAYIM: `Amount` net (iskonto sonrası) tutardır ve brüt = Amount + DiscountAmount. Türetilen kolon bilinçli olarak `assumed_gross_amount` adıyla üretildi ki varsayım BI tarafında da görünür kalsın. Doğrulanmadı.
+- ReturnFlag=0 olmasına rağmen Amount<0 olan 15 satır anomalidir. Karar: silinmedi, `is_anomaly` ile işaretlendi ve headline KPI'lara DAHİL edildi — böylece toplamlar ham veriyle birebir mutabık kalıyor. Detay: outputs/tables/01_anomalies.csv
+- `ChangeCardFlag` kolonu CLAUDE.md'de tanımlı değil ve semantiği doğrulanamadı. Karar: fact_sales'e taşındı, üzerine hiçbir analiz kurulmadı, sunuma sayı girmiyor.
+- Fit etiketleri TR tarafına normalize edildi (Colored Denims→Renkli Denim, Maternity→Hamile). 5'ten az ürünü olan etiketler `Other` altında toplandı. `*EN` kolonlarında 278-280 null olduğu için join/label anahtarı olarak kullanılmadı; kendi mapping dict'imiz üzerinden gidildi.
+- Beden kodu `ProductItemCode`'dan `ProductCode` prefix'i çıkarılarak türetildi. Sabit karakter kesme kullanılmadı çünkü ProductCode iki farklı formatta (M1020589168 tiresiz / M1011043-90090 tireli). 34.070 satırın tamamı 3 haneye çözüldü.
+- `size_code` baştaki sıfırları anlamlı olan bir metin kolonudur ('007' ≠ 7). Parquet bunu string olarak saklar; CSV'de tip bilgisi olmadığı için BI tool'unda bu kolon metin olarak içe aktarılmalıdır, aksi halde baştaki sıfırlar kaybolur ve bedenler birleşir.
+- Lokasyon boyutu olarak yalnızca `StoreCode` mevcut; şehir/bölge/mağaza tipi kolonu veri setinde YOK. Bu nedenle 'lokasyon bazlı analiz' = mağaza bazlı analizdir. 05'te üretilen `dim_store` COĞRAFİ DEĞİL, tamamen satış davranışından TÜRETİLMİŞ özellikler içerir (ciro dilimi, aktif ay sayısı, iade oranı, baskın fit).
+- Class / MainCategory / Category / SubCategory kolonlarının hepsi tek değerlidir; izlenebilirlik için dim_product'ta tutuldu ama hiçbir kırılımda kullanılmadı.
+- İade satırlarında Amount zaten negatif olduğu için metrik konvansiyonu: net = sum(Amount), brüt satış = sum(Amount[~is_return]), iade = sum(Amount[is_return]). Bu üç tanım tüm downstream script'lerde aynı anlamda kullanılır.
+- Veride fiş/sepet kimliği YOK (DocID satır başına unique). Tek proxy olan StoreCode+Date+dakika gruplaması, grupların %99'unu tek satır olarak döndürdüğü için gerçek sepeti geri kazanmıyor. Karar: 'ortalama sepet tutarı' hesaplanmadı; onun yerine `avg_line_amount` (net satış / satır sayısı) raporlandı ve sunumda bu sınır belirtilecek.
+- Veri 2024-02 → 2025-01 arası TEK bir 12 aylık döngüdür; her takvim ayının yalnızca bir gözlemi vardır. Bu nedenle aylık dalgalanmalar mevsimsellik olarak SUNULMADI — mevsimsel etki, trend ve kampanya etkisi bu veriyle ayrıştırılamaz. Çıktılarda '12 aylık gözlem' terimi kullanıldı; mevsimsellik için ≥24-36 aylık geçmiş gerekir.
+- `panel_store_month.parquet` dengeli panel olarak üretildi (350 mağaza × 12 ay = 4,200 satır). Satışı olmayan 270 mağaza-ay hücresi 0 ile dolduruldu; 'satış yok' ile 'veri yok' ayrımı `had_sales` bayrağında tutuluyor.
+- 04'te 'potansiyel' şöyle tanımlandı: anlamlı satış tabanı olan, talebi büyüyen, büyümesini iskontoyla satın almayan ve iade oranı düşük fit × mağaza hücresi. Skor = ağırlıklı yüzdelik sıra (büyüme %40, iade %25, iskonto %20, ciro payı %15). Ağırlıklar analistin kararıdır, veriden türetilmemiştir; tanım ve gerekçe outputs/tables/04_scoring_definition.csv dosyasında.
+- BI katmanı ayrıştırıldı: 01-04 dahili çalışma dosyalarını data/interim/ altında orijinal kolon adlarıyla tutar, 05 ise data/processed/ altına snake_case star schema yazar. Aynı dosya adının iki farklı kolon şemasıyla yazılmasını engellemek için tek yazar kuralı.
+- `dim_date` veri aralığından değil SABİT sınırlardan kuruldu (2024-02-01 → 2025-01-31, 366 gün) ve satışsız günleri de içerir; `has_sales` bayrağı ayrımı tutar.

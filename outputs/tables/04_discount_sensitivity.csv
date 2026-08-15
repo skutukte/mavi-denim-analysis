@@ -1,0 +1,4 @@
+﻿metric,value,description
+spearman_rank_corr,0.9483,iskontolu vs iskontosuz skor sıra korelasyonu
+top20_overlap,10.0,ilk 20'de ortak hücre sayısı
+top20_overlap_pct,50.0,ilk 20 örtüşme oranı (%)

@@ -1,0 +1,6 @@
+﻿metric,value,description
+docid_is_unique,1.0,DocID satır başına unique → fiş kimliği değil
+n_rows,34070.0,toplam satış satırı
+n_timestamp_groups,33714.0,StoreCode + Date + dakika ile oluşan grup sayısı
+n_multiline_groups,353.0,birden fazla satır içeren grup
+multiline_group_pct,1.05,çok satırlı grup oranı (%)

@@ -1,0 +1,22 @@
+﻿source,column,dtype,n_rows,n_null,n_unique,sample_values
+Sales,DocID,int64,34070,0,34070,1 | 2 | 3
+Sales,StoreCode,int64,34070,0,350,1837 | 1851 | 1666
+Sales,ProductItemCode,object,34070,0,433,M100462-80835007 | M101437-80890010 | M1010152-81461109
+Sales,ProductCode,object,34070,0,249,M100462-80835 | M101437-80890 | M1010152-81461
+Sales,Date,datetime64[ns],34070,0,366,2024-02-18 00:00:00 | 2024-04-07 00:00:00 | 2024-02-04 00:00:00
+Sales,ReturnFlag,int64,34070,0,2,1 | 0
+Sales,Time,int64,34070,0,791,1736 | 1853 | 1603
+Sales,Quantity,int64,34070,0,4,-2 | 2 | -1
+Sales,Amount,float64,34070,0,4402,-1396.35 | 999.99 | 1396.35
+Sales,DiscountAmount,float64,34070,0,1302,-349.09091 | 745.44545 | 349.09091
+Sales,ChangeCardFlag,int64,34070,0,2,0 | 1
+Products,ProductCode,object,1511,0,1511,M1020589168 | M1011043-90090 | M1010530-89661
+Products,Class,object,1511,0,1,Ticari Malzemeler
+Products,MainCategory,object,1511,0,1,Denim All
+Products,Category,object,1511,0,1,Denim All
+Products,SubCategory,object,1511,0,1,Denim Pantolon
+Products,SubCategoryClass,object,1511,0,18,Boyfriend | Wide Leg | Straight
+Products,MainCategoryEN,object,1511,278,1,Denim All
+Products,CategoryEN,object,1511,278,2,Denim All | Denim Pants
+Products,SubCategoryEN,object,1511,280,1,Denim Pants
+Products,SubCategoryClassEN,object,1511,280,14,Boyfriend | Wide Leg | Straight

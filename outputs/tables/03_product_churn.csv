@@ -1,0 +1,5 @@
+﻿metric,value,description
+n_products_sold,249.0,dönemde en az bir satışı olan ürün
+n_products_all_12_months,23.0,12 ayın tamamında satılan ürün
+n_products_max_3_months,81.0,3 ay veya daha az satılan ürün
+pct_products_all_12,9.2,%

@@ -1,0 +1,5 @@
+﻿component,weight_pct,direction,formula,rationale
+growth_index,40,yüksek iyi,"(brüt_H2 - brüt_H1) / (brüt_H1 + brüt_H2), [-1,+1] aralığında sınırlı",Potansiyel ileriye dönük bir iddiadır; yön en ağır sinyal.
+return_rate_amount,25,düşük iyi,|iade tutarı| / brüt satış,İade edilen satış ciro değildir; denim fitte kalıp-beden uyumsuzluğunun doğrudan sinyali.
+discount_intensity,20,düşük iyi,iskonto / varsayımsal brüt (yalnızca satış satırları),İskontoyla alınan büyüme kalıcı değildir ve marjı yer. VARSAYIMA DAYANIR.
+net_share_pct,15,yüksek iyi,hücre net cirosu / toplam net ciro × 100,"Hacim amaç değil kanıt ağırlığı: küçük hücre gürültüsünü bastırır, listeyi ele geçirmez."
