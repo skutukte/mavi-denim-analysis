@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Office geçici kilit dosyaları (dosya açıkken oluşur)
+~$*
+
 # Python
 __pycache__/
 *.py[cod]
